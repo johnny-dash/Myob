@@ -7,8 +7,6 @@ const validator = require("./validator");
 const stream = csv({
   raw: false, // do not decode to utf-8 strings
   separator: ",", // specify optional cell separator
-  quote: '"', // specify optional quote character
-  escape: '"', // specify optional escape character (defaults to quote value)
   newline: "\n", // specify a newline character
   headers: [
     "firstName",
@@ -19,7 +17,14 @@ const stream = csv({
   ] // Specifing the headers
 });
 
-const transformer = transform(function(record, callback) {
+/**
+ *
+ *
+ * @param {*} record
+ * @param {*} callback
+ * @returns
+ */
+const transformer = transform((record, callback) => {
   //validation
   const input = validator.validate(record, validator.schema);
 
@@ -33,12 +38,37 @@ const transformer = transform(function(record, callback) {
   }
 });
 
-const format = data => {
+/**
+ *
+ *
+ * @param {*} data
+ * @returns
+ */
+function format(data) {
   const values = Object.values(data);
-  return values.join(",") + "\n";
-};
+  const output = values.join(",") + "\n";
+  console.log(output);
+  return output;
+}
 
+/**
+ *
+ *
+ * @param {*} inputDir
+ * @param {*} outputDir
+ */
 function processFile(inputDir, outputDir) {
+  if (!fs.existsSync(inputDir)) {
+    throw new Error("The input file is not in the following path: " + inputDir);
+  }
+
+  if (!fs.existsSync(outputDir)) {
+    fs.appendFile(outputDir, "", err => {
+      if (err) throw err;
+      console.log("Create the output file: " + outputDir);
+    });
+  }
+
   const output = fs.createWriteStream(outputDir);
   fs
     .createReadStream(inputDir)

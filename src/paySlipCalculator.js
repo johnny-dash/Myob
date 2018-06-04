@@ -1,5 +1,11 @@
 const taxTable = require("./taxTable");
 
+/**
+ *
+ *
+ * @param {*} data
+ * @returns
+ */
 function calculatePaySlip(data) {
   const annualSalary = parseInt(data.annualSalary);
   const superRate = parseFloat(data.superRate) / 100;
@@ -21,10 +27,22 @@ function calculatePaySlip(data) {
   };
 }
 
+/**
+ *
+ *
+ * @param {*} annualSalary
+ * @returns
+ */
 function calculateGrossIncome(annualSalary) {
   return Math.round(annualSalary / 12);
 }
 
+/**
+ *
+ *
+ * @param {*} annualSalary
+ * @returns
+ */
 function calculateIncomeTax(annualSalary) {
   let incomeTax;
   taxTable.forEach(incomeRange => {
@@ -40,10 +58,24 @@ function calculateIncomeTax(annualSalary) {
   return Math.round(incomeTax);
 }
 
+/**
+ *
+ *
+ * @param {*} grossIncome
+ * @param {*} incomeTax
+ * @returns
+ */
 function calculateNetIncome(grossIncome, incomeTax) {
   return grossIncome - incomeTax;
 }
 
+/**
+ *
+ *
+ * @param {*} grossIncome
+ * @param {*} superRate
+ * @returns
+ */
 function calculateSuperannuation(grossIncome, superRate) {
   return Math.round(grossIncome * superRate);
 }

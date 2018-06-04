@@ -4,10 +4,18 @@
   "description": "The application to solve employee monthly pay slip problem",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johnny-dash/Myob"
   },
   "author": "Johnny Mao",
   "license": "MIT",
+  "devDependencies": {
+    "jest": "^23.1.0"
+  },
   "dependencies": {
     "csv-parser": "^1.12.1",
     "joi": "^13.3.0",
