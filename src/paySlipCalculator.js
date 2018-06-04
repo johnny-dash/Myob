@@ -1,10 +1,10 @@
 const taxTable = require("./taxTable");
 
 /**
+ * This is the function that calculate the result for row data
  *
- *
- * @param {*} data
- * @returns
+ * @param {object} data object data that represent the row of input csv
+ * @returns object of result
  */
 function calculatePaySlip(data) {
   const annualSalary = parseInt(data.annualSalary);
@@ -28,20 +28,21 @@ function calculatePaySlip(data) {
 }
 
 /**
+ * function to calculate gross income
  *
- *
- * @param {*} annualSalary
- * @returns
+ * @param {Int} annualSalary
+ * @returns gross income value
  */
 function calculateGrossIncome(annualSalary) {
   return Math.round(annualSalary / 12);
 }
 
 /**
+ * function to calculate income tax. This function will use taxTable to check
+ * what tax rate and logic should be applied
  *
- *
- * @param {*} annualSalary
- * @returns
+ * @param {int} annualSalary
+ * @returns income tax value
  */
 function calculateIncomeTax(annualSalary) {
   let incomeTax;
@@ -59,22 +60,22 @@ function calculateIncomeTax(annualSalary) {
 }
 
 /**
+ * function to calculate net income
  *
- *
- * @param {*} grossIncome
- * @param {*} incomeTax
- * @returns
+ * @param {int} grossIncome
+ * @param {int} incomeTax
+ * @returns net income value
  */
 function calculateNetIncome(grossIncome, incomeTax) {
   return grossIncome - incomeTax;
 }
 
 /**
- *
+ * function to calculate superannuation
  *
  * @param {*} grossIncome
  * @param {*} superRate
- * @returns
+ * @returns superannuation value
  */
 function calculateSuperannuation(grossIncome, superRate) {
   return Math.round(grossIncome * superRate);

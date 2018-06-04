@@ -1,3 +1,4 @@
+// The validation of data object is done by Joi.
 const Joi = require("joi");
 
 const schema = Joi.object().keys({
