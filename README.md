@@ -10,7 +10,7 @@
 
 ## Run
 
-By running the following code, you will see the result of be print in the console.
+By running the following code, you will see the result of pay slip printed in the console and these data will be written into the csv file that defined in the output path in config.json.
 
 `npm run start`
 
@@ -24,7 +24,18 @@ run the following command line to check the unit test coverage
 
 `npm run test:cover`
 
+# Design
+
+* Save the tax rates table to a json file and could easily maintain and change in the future.
+* Using Joi to do the validation.The validator could be reuse and change in the future.
+* Use `Jest` for testing
+
 # Assumption
+
+* Both input and output file should be csv file
+* There is no header for input/output file
+* columns in the csv file should be separated by comma
+* The input of payment start date should have correct format
 
 # Note
 

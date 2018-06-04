@@ -10,6 +10,10 @@ function calculatePaySlip(data) {
   const annualSalary = parseInt(data.annualSalary);
   const superRate = parseFloat(data.superRate) / 100;
 
+  //I know I should not put the validation here = (
+  if (superRate < 0 || superRate > 0.5)
+    throw new Error("The superannuation rate is out of boundary");
+
   const name = data.firstName.trim() + " " + data.lastName.trim();
   const payPeriod = data.paymentStartDate.trim();
   const grossIncome = calculateGrossIncome(annualSalary);
@@ -81,4 +85,10 @@ function calculateSuperannuation(grossIncome, superRate) {
   return Math.round(grossIncome * superRate);
 }
 
-module.exports = calculatePaySlip;
+module.exports = {
+  calculatePaySlip,
+  calculateGrossIncome,
+  calculateIncomeTax,
+  calculateNetIncome,
+  calculateSuperannuation
+};

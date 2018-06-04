@@ -1,7 +1,7 @@
 const csv = require("csv-parser");
 const fs = require("fs");
 const transform = require("stream-transform");
-const calculatePaySlip = require("./paySlipCalculator");
+const paySlipCalculator = require("./paySlipCalculator");
 const validator = require("./validator");
 
 const stream = csv({
@@ -29,7 +29,7 @@ const transformer = transform((record, callback) => {
   const input = validator.validate(record, validator.schema);
 
   if (input.error === null) {
-    const result = calculatePaySlip(record);
+    const result = paySlipCalculator.calculatePaySlip(record);
     if (result) {
       return callback(null, format(result));
     }
