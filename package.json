@@ -1,0 +1,14 @@
+{
+  "name": "payslip",
+  "version": "1.0.0",
+  "description": "The application to solve employee monthly pay slip problem",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Johnny Mao",
+  "license": "MIT",
+  "dependencies": {
+    "csv-parser": "^1.12.1"
+  }
+}
