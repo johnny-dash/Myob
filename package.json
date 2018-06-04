@@ -9,6 +9,8 @@
   "author": "Johnny Mao",
   "license": "MIT",
   "dependencies": {
-    "csv-parser": "^1.12.1"
+    "csv-parser": "^1.12.1",
+    "joi": "^13.3.0",
+    "stream-transform": "^1.0.2"
   }
 }

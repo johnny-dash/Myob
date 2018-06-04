@@ -1,5 +1,9 @@
 const csv = require("csv-parser");
 const fs = require("fs");
+const transform = require("stream-transform");
+const calculatePaySlip = require("./paySlipCalculator");
+const validator = require("./validator");
+
 const stream = csv({
   raw: false, // do not decode to utf-8 strings
   separator: ",", // specify optional cell separator
@@ -15,25 +19,32 @@ const stream = csv({
   ] // Specifing the headers
 });
 
-function processFiles(inputDir) {
-  fs.readdir(inputDir, (err, files) => {
-    if (files) {
-      files.forEach(file => {
-        parseCsv(inputDir, file);
-      });
-    } else {
-      throw new Error("No input file has been found");
+const transformer = transform(function(record, callback) {
+  //validation
+  const input = validator.validate(record, validator.schema);
+
+  if (input.error === null) {
+    const result = calculatePaySlip(record);
+    if (result) {
+      return callback(null, format(result));
     }
-  });
-}
+  } else {
+    throw input.error;
+  }
+});
 
-function parseCsv(inputDir, fileName) {
+const format = data => {
+  const values = Object.values(data);
+  return values.join(",") + "\n";
+};
+
+function processFile(inputDir, outputDir) {
+  const output = fs.createWriteStream(outputDir);
   fs
-    .createReadStream(inputDir + "/" + fileName)
+    .createReadStream(inputDir)
     .pipe(stream)
-    .on("data", function(data) {
-      //do logic here
-    });
+    .pipe(transformer)
+    .pipe(output);
 }
 
-module.exports = processFiles;
+module.exports = processFile;
