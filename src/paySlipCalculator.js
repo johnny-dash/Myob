@@ -1,37 +1,51 @@
-const helper = require("./helper");
 const taxTable = require("./taxTable");
 
 function calculatePaySlip(data) {
   const annualSalary = parseInt(data.annualSalary);
-  const superRate = helper.precisionRound(parseFloat(data.superRate) / 100, 2);
+  const superRate = parseFloat(data.superRate) / 100;
 
-  const name = data.firstName + " " + data.lastName;
-  const payPeriod = data.paymentStartDate;
+  const name = data.firstName.trim() + " " + data.lastName.trim();
+  const payPeriod = data.paymentStartDate.trim();
   const grossIncome = calculateGrossIncome(annualSalary);
+  const incomeTax = calculateIncomeTax(annualSalary);
+  const netIncome = calculateNetIncome(grossIncome, incomeTax);
   const superannuation = calculateSuperannuation(grossIncome, superRate);
 
   return {
     name: name,
     payPeriod: payPeriod,
     grossIncome: grossIncome,
-    incomeTax: superRate,
-    netIncome: "b",
+    incomeTax: incomeTax,
+    netIncome: netIncome,
     superannuation: superannuation
   };
 }
 
 function calculateGrossIncome(annualSalary) {
-  return Math.floor(annualSalary / 12);
+  return Math.round(annualSalary / 12);
 }
 
-function calculateIncomeTax() {
-  return 0;
+function calculateIncomeTax(annualSalary) {
+  let incomeTax;
+  taxTable.forEach(incomeRange => {
+    if (
+      annualSalary >= incomeRange.minAnnualSalary &&
+      annualSalary <= incomeRange.maxAnnualSalary
+    ) {
+      let taxRate =
+        (annualSalary - incomeRange.minAnnualSalary + 1) * incomeRange.taxRate;
+      incomeTax = (taxRate + incomeRange.baseTax) / 12;
+    }
+  });
+  return Math.round(incomeTax);
 }
 
-function calculateNetIncome() {}
+function calculateNetIncome(grossIncome, incomeTax) {
+  return grossIncome - incomeTax;
+}
 
 function calculateSuperannuation(grossIncome, superRate) {
-  return Math.floor(grossIncome * superRate);
+  return Math.round(grossIncome * superRate);
 }
 
 module.exports = calculatePaySlip;
