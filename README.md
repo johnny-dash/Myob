@@ -1,6 +1,6 @@
-#Introduction
+# Introduction
 
-#Installation & Usage
+# Installation & Usage
 
 1.  Make sure Node.js(8.0+) are installed as this is a command line application are implemented by javascript
 2.  `git clone https://github.com/johnny-dash/Myob`
